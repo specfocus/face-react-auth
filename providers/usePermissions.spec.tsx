@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { waitFor, render, screen } from '@testing-library/react';
-import { CoreAdminContext } from '../core/CoreAdminContext';
+import { BaseRootContext } from '../core/BaseRootContext';
 
 import usePermissions from './usePermissions';
 
@@ -21,9 +21,9 @@ const stateInpector = state => (
 describe('usePermissions', () => {
   it('should return a loading state on mount', () => {
     render(
-      <CoreAdminContext>
+      <BaseRootContext>
         <UsePermissions>{stateInpector}</UsePermissions>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     expect(screen.queryByText('LOADING')).not.toBeNull();
     expect(screen.queryByText('AUTHENTICATED')).toBeNull();
@@ -31,9 +31,9 @@ describe('usePermissions', () => {
 
   it('should return nothing by default after a tick', async () => {
     render(
-      <CoreAdminContext>
+      <BaseRootContext>
         <UsePermissions>{stateInpector}</UsePermissions>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     await waitFor(() => {
       expect(screen.queryByText('LOADING')).toBeNull();
@@ -49,9 +49,9 @@ describe('usePermissions', () => {
       getPermissions: () => Promise.resolve('admin'),
     };
     render(
-      <CoreAdminContext authProvider={authProvider}>
+      <BaseRootContext authProvider={authProvider}>
         <UsePermissions>{stateInpector}</UsePermissions>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     await waitFor(() => {
       expect(screen.queryByText('LOADING')).toBeNull();
@@ -68,9 +68,9 @@ describe('usePermissions', () => {
       getPermissions: () => Promise.reject('not good'),
     };
     render(
-      <CoreAdminContext authProvider={authProvider}>
+      <BaseRootContext authProvider={authProvider}>
         <UsePermissions>{stateInpector}</UsePermissions>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     await waitFor(() => {
       expect(screen.queryByText('LOADING')).toBeNull();

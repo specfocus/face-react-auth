@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { waitFor, render, screen } from '@testing-library/react';
-import { CoreAdminContext } from '../core/CoreAdminContext';
+import { BaseRootContext } from '../core/BaseRootContext';
 
 import useAuthState from './useAuthState';
 
@@ -20,9 +20,9 @@ const stateInpector = state => (
 describe('useAuthState', () => {
   it('should return a loading state on mount', () => {
     render(
-      <CoreAdminContext>
+      <BaseRootContext>
         <UseAuth>{stateInpector}</UseAuth>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     expect(screen.queryByText('LOADING')).not.toBeNull();
     expect(screen.queryByText('AUTHENTICATED')).not.toBeNull();
@@ -30,9 +30,9 @@ describe('useAuthState', () => {
 
   it('should return authenticated by default after a tick', async () => {
     render(
-      <CoreAdminContext>
+      <BaseRootContext>
         <UseAuth>{stateInpector}</UseAuth>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     await waitFor(() => {
       expect(screen.queryByText('LOADING')).toBeNull();
@@ -49,11 +49,11 @@ describe('useAuthState', () => {
       getPermissions: () => Promise.reject('bad method'),
     };
     render(
-      <CoreAdminContext authProvider={authProvider}>
+      <BaseRootContext authProvider={authProvider}>
         <UseAuth options={{ logoutOnFailure: false }}>
           {stateInpector}
         </UseAuth>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     await waitFor(() => {
       expect(screen.queryByText('LOADING')).toBeNull();

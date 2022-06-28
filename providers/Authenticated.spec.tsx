@@ -5,7 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import expect from 'expect';
 import { createMemoryHistory } from 'history';
 import React from 'react';
-import { CoreAdminContext } from '../core';
+import { BaseRootContext } from '../core';
 import { useNotificationContext } from '../notifications';
 import { memoryStore } from '@specfocus/view-focus.states/states';
 import { Authenticated } from './Authenticated';
@@ -25,11 +25,11 @@ describe('<Authenticated>', () => {
     const reset = jest.spyOn(store, 'reset');
 
     render(
-      <CoreAdminContext authProvider={authProvider} store={store}>
+      <BaseRootContext authProvider={authProvider} store={store}>
         <Authenticated>
           <Foo />
         </Authenticated>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     expect(screen.queryByText('Foo')).not.toBeNull();
     expect(reset).toHaveBeenCalledTimes(0);
@@ -66,7 +66,7 @@ describe('<Authenticated>', () => {
     };
 
     render(
-      <CoreAdminContext
+      <BaseRootContext
         authProvider={authProvider}
         store={store}
         history={history}
@@ -83,7 +83,7 @@ describe('<Authenticated>', () => {
           />
           <Route path="/login" element={<Login />} />
         </Routes>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     await waitFor(() => {
       expect(authProvider.checkAuth.mock.calls[0][0]).toEqual({});

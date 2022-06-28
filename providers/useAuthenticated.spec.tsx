@@ -5,7 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import expect from 'expect';
 import { createMemoryHistory } from 'history';
 import React from 'react';
-import { CoreAdminContext } from '../core';
+import { BaseRootContext } from '../core';
 import { useNotificationContext } from '../notifications';
 import { memoryStore } from '@specfocus/view-focus.states/states';
 import { Authenticated } from './Authenticated';
@@ -24,11 +24,11 @@ describe('useAuthenticated', () => {
     const store = memoryStore();
     const reset = jest.spyOn(store, 'reset');
     render(
-      <CoreAdminContext authProvider={authProvider} store={store}>
+      <BaseRootContext authProvider={authProvider} store={store}>
         <Authenticated>
           <Foo />
         </Authenticated>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     expect(authProvider.checkAuth).toBeCalledTimes(1);
     expect(authProvider.checkAuth.mock.calls[0][0]).toEqual({});
@@ -47,11 +47,11 @@ describe('useAuthenticated', () => {
     const reset = jest.spyOn(store, 'reset');
 
     const FooWrapper = props => (
-      <CoreAdminContext authProvider={authProvider} store={store}>
+      <BaseRootContext authProvider={authProvider} store={store}>
         <Authenticated {...props}>
           <Foo />
         </Authenticated>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     const { rerender } = render(<FooWrapper />);
     rerender(<FooWrapper authParams={{ foo: 'bar' }} />);
@@ -72,11 +72,11 @@ describe('useAuthenticated', () => {
     const reset = jest.spyOn(store, 'reset');
 
     render(
-      <CoreAdminContext authProvider={authProvider} store={store}>
+      <BaseRootContext authProvider={authProvider} store={store}>
         <Authenticated>
           <Foo />
         </Authenticated>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     expect(screen.queryByText('Foo')).toBeDefined();
     expect(reset).toHaveBeenCalledTimes(0);
@@ -113,7 +113,7 @@ describe('useAuthenticated', () => {
     };
 
     render(
-      <CoreAdminContext
+      <BaseRootContext
         authProvider={authProvider}
         history={history}
         store={store}
@@ -130,7 +130,7 @@ describe('useAuthenticated', () => {
           />
           <Route path="/login" element={<Login />} />
         </Routes>
-      </CoreAdminContext>
+      </BaseRootContext>
     );
     await waitFor(() => {
       expect(authProvider.checkAuth.mock.calls[0][0]).toEqual({});

@@ -47,7 +47,7 @@ export const useLogout = (): Logout => {
    * But if we used the location from useLocation as a dependency of the logout
    * function, it would be rebuilt each time the user changes location.
    * Consequently, that would force a rerender of all components using this hook
-   * upon navigation (CoreAdminRouter for example).
+   * upon navigation (BaseRootRouter for example).
    *
    * To avoid that, we store the location in a ref.
    */
